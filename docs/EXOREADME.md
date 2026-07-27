@@ -11,7 +11,7 @@ modify its own code, restart its services, manage adapters, run scheduled work,
 create tools, and snapshot or rewind its sandbox. Exo supports a number of
 tools and adapters including IRC, WhatsApp, Signal, and Discord.
 
-For setup and usage, see [Exo](examples/exo/README.md).
+For setup and usage, see [Exo](../exo/README.md).
 
 ![Exo architecture overview](docs/images/architecture-overview.svg)
 
@@ -106,11 +106,11 @@ Then create an agent backed by a TypeScript harness module:
 
 ```bash
 ./target/debug/exo --harness typescript agent create "TS Basic" \
-  --module examples/typescript/basic-harness.ts \
+  --module exoharness/examples/typescript/basic-harness.ts \
   --model gpt-5.5
 ```
 
-The `examples/typescript` directory also contains Codex, Claude Code, Cursor,
+The `exoharness/examples/typescript` directory also contains Codex, Claude Code, Cursor,
 and recursive-language-model harness experiments.
 
 For the coding-agent setup commands, see
@@ -120,21 +120,26 @@ For the coding-agent setup commands, see
 
 Exo is a long-running claw-type agent built on exoharness. It supports
 scheduled tasks, and a full adapter system including support for WhatsApp,
-Signal, and IRC. See [examples/exo/README.md](./examples/exo/README.md)
+Signal, and IRC. See [exo/README.md](../exo/README.md)
 for setup, operation, and debugging commands.
 
 ## Repository Layout
 
-- `crates`: Rust workspace for the CLI, exoharness substrate, and executors.
-- `typescript`: TypeScript harness runtime, model-runtime helpers, and
+- `exoharness/crates`: Rust crates for the CLI, exoharness substrate, and
+  executors.
+- `exoharness/typescript`: TypeScript harness runtime, model-runtime helpers, and
   adapter-specific support code.
-- `examples/typescript`: runnable TypeScript harness examples.
-- `examples/exo`: long-running TypeScript harness example with scheduled
+- `exoharness/examples/typescript`: runnable TypeScript harness examples.
+- `exoharness/examples/gameboy-agent`: example sidecar-backed agent.
+- `exo`: canonical long-running Exo agent with scheduled
   task and adapter support.
-- `containers`: sandbox images used by the coding-agent harness examples.
-- `spec`: core architecture and terminology.
+- `exoharness/containers`: sandbox images used by the coding-agent harness
+  examples.
+- `docs/spec.md`: core architecture and terminology.
 - `docs`: design notes for in-progress directions.
-- `scripts`: development and live e2e utilities.
+- `exoharness/scripts`: live exoharness e2e utilities.
+- `exo/scripts`: Exo service, adapter, and setup utilities.
+- `scripts`: repository development hooks.
 
 ## Development
 

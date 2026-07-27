@@ -43,23 +43,23 @@ and artifacts so the event log preserves turn ownership.
 
 ## Key Crates And Files
 
-- `crates/exoharness/src/types.rs`: core Rust traits and data types.
-- `crates/exoharness/src/basic.rs`: filesystem-backed implementation of the
+- `exoharness/crates/exoharness/src/types.rs`: core Rust traits and data types.
+- `exoharness/crates/exoharness/src/basic.rs`: filesystem-backed implementation of the
   core traits.
-- `crates/exoharness/src/protocol.rs`: JSON-serializable request and response
+- `exoharness/crates/exoharness/src/protocol.rs`: JSON-serializable request and response
   protocol for the core API.
-- `crates/exoharness/src/server.rs`: protocol server that dispatches JSON
+- `exoharness/crates/exoharness/src/server.rs`: protocol server that dispatches JSON
   requests into an `ExoHarness`.
-- `crates/executor/src/harness_types.rs`: higher-level executor-facing harness
+- `exoharness/crates/executor/src/harness_types.rs`: higher-level executor-facing harness
   facade.
-- `crates/executor/src/harness_executor.rs`: generic turn execution lifecycle.
-- `crates/executor/src/typescript.rs`: Rust host for TypeScript harness
+- `exoharness/crates/executor/src/harness_executor.rs`: generic turn execution lifecycle.
+- `exoharness/crates/executor/src/typescript.rs`: Rust host for TypeScript harness
   processes.
-- `typescript/harness/index.ts`: public TypeScript API exposed to harness
+- `exoharness/typescript/harness/index.ts`: public TypeScript API exposed to harness
   authors.
-- `typescript/harness/runner.ts`: TypeScript guest process that converts the
+- `exoharness/typescript/harness/runner.ts`: TypeScript guest process that converts the
   public TypeScript API into host protocol messages.
-- `examples/exo/harness.ts`: Exo's TypeScript harness module.
+- `exo/harness.ts`: Exo's TypeScript harness module.
 
 ## Core Rust API
 
@@ -381,7 +381,7 @@ The TypeScript executor runs one persistent Node process per harness module
 path. The host command is:
 
 ```text
-node --import tsx typescript/harness/runner.ts <modulePath>
+node --import tsx exoharness/typescript/harness/runner.ts <modulePath>
 ```
 
 Rust writes host-to-guest JSONL messages to stdin. TypeScript writes
@@ -516,14 +516,14 @@ routes requests through `braintrust_llm_router`.
 
 ## Exo Integration
 
-`examples/exo/harness.ts` is a TypeScript harness module. It composes the
+`exo/harness.ts` is a TypeScript harness module. It composes the
 generic TypeScript harness API with Exo-specific instructions and tools.
 
 On each turn it:
 
 1. Calls `runResponsesHarnessTurn()`.
 2. Adds generic basic harness instructions.
-3. Adds `examples/exo/prompts/me.md`.
+3. Adds `exo/prompts/me.md`.
 4. Adds an optional local profile prompt from `.exo/exo-profile.md` or
    `EXO_LOCAL_PROMPT_FILE`.
 5. Registers built-in tools.
@@ -600,7 +600,7 @@ stream turns, inspect events/messages, and manage bindings/secrets. It should
 not need to know whether the underlying storage is `BasicExoHarness` or another
 future implementation.
 
-Exo-specific startup logic lives under `examples/exo`. The root CLI
+Exo-specific startup logic lives under `exo`. The root CLI
 still provides generic agent and conversation operations; Exo scripts and
 runner binaries compose those generic operations with Exo scheduler and
 adapter services.
@@ -665,9 +665,9 @@ When adding a new core operation, update all three surfaces:
 When adding a TypeScript-only runtime capability, update both sides of the
 TypeScript harness protocol:
 
-1. `crates/executor/src/typescript.rs` host message/request/response handling.
-2. `typescript/harness/runner.ts` raw types and `TurnContext` implementation.
-3. `typescript/harness/index.ts` public type definitions.
+1. `exoharness/crates/executor/src/typescript.rs` host message/request/response handling.
+2. `exoharness/typescript/harness/runner.ts` raw types and `TurnContext` implementation.
+3. `exoharness/typescript/harness/index.ts` public type definitions.
 
 ## Common Call Flows
 

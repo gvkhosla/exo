@@ -128,9 +128,9 @@ agent is created or updated:
 
 ```bash
 exo --harness typescript agent create "Tool Demo" \
-  --module examples/typescript/basic-harness.ts \
+  --module exoharness/examples/typescript/basic-harness.ts \
   --model gpt-5.5 \
-  --tool-module examples/typescript/tools/uppercase.ts
+  --tool-module exoharness/examples/typescript/tools/uppercase.ts
 ```
 
 `--tool-module` may be passed more than once. Each value is a TypeScript module
@@ -141,7 +141,7 @@ Existing TypeScript agents can be updated in place:
 
 ```bash
 exo agent update tool-demo \
-  --tool-module examples/typescript/tools/uppercase.ts
+  --tool-module exoharness/examples/typescript/tools/uppercase.ts
 
 exo agent update tool-demo --clear-tool-modules
 ```
@@ -150,7 +150,7 @@ Agent tool creation is enabled by default. Disable or re-enable it with:
 
 ```bash
 exo --harness typescript agent create "Locked Down" \
-  --module examples/typescript/basic-harness.ts \
+  --module exoharness/examples/typescript/basic-harness.ts \
   --model gpt-5.5 \
   --tool-creation disabled
 
@@ -196,6 +196,6 @@ The basic TypeScript harness currently opts into `shell`, library tool modules
 stored on the agent config, and agent-created tools from `.exo/agent-tools/`
 when agent tool creation is enabled.
 
-There is an example library tool at `examples/typescript/tools/uppercase.ts`.
+There is an example library tool at `exoharness/examples/typescript/tools/uppercase.ts`.
 It exists to test and demonstrate the registry contract, and can be enabled with
-`--tool-module examples/typescript/tools/uppercase.ts`.
+`--tool-module exoharness/examples/typescript/tools/uppercase.ts`.

@@ -20,14 +20,14 @@ Resend inbound webhook
 ```
 
 Optional library tools can still exist later for inbox inspection, but the
-primary integration should be `examples/exo/adapters/email/`.
+primary integration should be `exo/adapters/email/`.
 
 ## Goals
 
 - Add first-party email support using the existing Exo adapter subsystem.
 - Support inbound email, outbound email, replies, and attachments.
 - Use Resend for outbound delivery and inbound routing/webhooks.
-- Keep email-specific code under `examples/exo/`.
+- Keep email-specific code under `exo/`.
 - Keep secrets and deploy-specific defaults out of Git.
 - Reuse `create_adapter`, `list_adapters`, `disable_adapter`, `delete_adapter`,
   and `send_adapter_message` where possible.
@@ -45,7 +45,7 @@ primary integration should be `examples/exo/adapters/email/`.
 ## Proposed Location
 
 ```text
-examples/exo/adapters/email/
+exo/adapters/email/
   README.md
   setup-prompt.md
   worker.ts
@@ -57,9 +57,9 @@ examples/exo/adapters/email/
 Shared adapter protocol changes, if any, should stay in:
 
 ```text
-examples/exo/adapters/protocol.ts
-crates/executor/src/adapter/
-typescript/harness/adapter-tools.ts
+exo/adapters/protocol.ts
+exoharness/crates/executor/src/adapter/
+exoharness/typescript/harness/adapter-tools.ts
 ```
 
 The first pass should try to fit inside the current adapter protocol:
@@ -277,7 +277,7 @@ Rust changes:
 - add `metadata: serde_json::Value` or `Option<Value>` to
   `AdapterOutboundMessageRecord`.
 - add `metadata` to `WorkerCommand::SendMessage`.
-- expose `metadata` in `typescript/harness/adapter-tools.ts`.
+- expose `metadata` in `exoharness/typescript/harness/adapter-tools.ts`.
 - keep validation adapter-specific in the worker where possible.
 
 This keeps the core adapter protocol generic and lets future adapters use
@@ -363,7 +363,7 @@ Even with an adapter-first design, a small library tool module may still be
 useful for inspecting stored email:
 
 ```text
-examples/exo/tools/library/email/
+exo/tools/library/email/
   index.ts
   store.ts
 ```
@@ -487,11 +487,11 @@ The Exo startup script can later add `email` to `--adapters` alongside
 
 Phase 1: adapter skeleton.
 
-- Add `examples/exo/adapters/email/README.md`.
-- Add `examples/exo/adapters/email/setup-prompt.md`.
-- Add `examples/exo/adapters/email/worker.ts`.
-- Add `examples/exo/adapters/email/resend.ts`.
-- Add `examples/exo/adapters/email/email-store.ts`.
+- Add `exo/adapters/email/README.md`.
+- Add `exo/adapters/email/setup-prompt.md`.
+- Add `exo/adapters/email/worker.ts`.
+- Add `exo/adapters/email/resend.ts`.
+- Add `exo/adapters/email/email-store.ts`.
 - Update docs to mention `email` as a supported adapter.
 
 Phase 2: inbound receive.
@@ -527,7 +527,7 @@ Phase 5: attachments.
 
 Phase 6: optional helper tools.
 
-- Add `examples/exo/tools/library/email/index.ts` only if needed.
+- Add `exo/tools/library/email/index.ts` only if needed.
 - Implement `list_received_emails` and `read_received_email`.
 - Keep sending through `send_adapter_message`.
 
@@ -537,9 +537,9 @@ Phase 7: verification and docs.
 - Unit test inbound webhook normalization.
 - Unit test email store dedupe.
 - Add worker-level smoke tests where practical.
-- Update `examples/exo/adapter-architecture.md`.
-- Update `examples/exo/README.md`.
-- Update `examples/exo/prompts/me.md`.
+- Update `exo/adapter-architecture.md`.
+- Update `exo/README.md`.
+- Update `exo/prompts/me.md`.
 
 ## Open Questions
 
@@ -557,7 +557,7 @@ Phase 7: verification and docs.
 
 ## Recommendation
 
-Implement email as `examples/exo/adapters/email/`. Treat receiving as the
+Implement email as `exo/adapters/email/`. Treat receiving as the
 primary reason for choosing the adapter abstraction: a Resend webhook worker
 stores inbound email, deduplicates events, and wakes the configured Exo
 conversation. Treat sending as the adapter's outbound path through

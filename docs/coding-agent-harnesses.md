@@ -53,7 +53,7 @@ Build the sandbox image:
 container build \
   --platform linux/arm64 \
   -t exo-codex-sandbox:latest \
-  containers/codex-sandbox
+  exoharness/containers/codex-sandbox
 ```
 
 Create the agent and start a conversation:
@@ -82,7 +82,7 @@ Build the sandbox image:
 container build \
   --platform linux/arm64 \
   -t exo-claude-code-sandbox:latest \
-  containers/claude-code-sandbox
+  exoharness/containers/claude-code-sandbox
 ```
 
 Create the agent and start a conversation:
@@ -110,7 +110,7 @@ Build the sandbox image:
 ```bash
 container build \
   --platform linux/arm64 \
-  -f containers/cursor-sdk-sandbox/Containerfile \
+  -f exoharness/containers/cursor-sdk-sandbox/Containerfile \
   -t exo-cursor-sdk-sandbox:latest \
   .
 ```

@@ -52,7 +52,7 @@ interface ToolDefinition {
 }
 ```
 
-`examples/typescript/basic-harness.ts` exposes only
+`exoharness/examples/typescript/basic-harness.ts` exposes only
 `buildShellToolDefinitions(context.conversationConfig)`. When the model calls a
 tool, the TypeScript runner sends an `execute_tool` runtime request to Rust.
 Rust's `BasicToolRuntime` currently dispatches only `shell`, backed by the
@@ -228,7 +228,7 @@ const tool = module.default;
 
 ### Tool Registry
 
-Add a `HarnessToolRegistry` in `typescript/harness/index.ts`:
+Add a `HarnessToolRegistry` in `exoharness/typescript/harness/index.ts`:
 
 ```ts
 const tools = createToolRegistry(context);
@@ -396,7 +396,7 @@ tool loading.
 
 ### Step 1: Add Portable Types Only
 
-Add the core TypeScript types in `typescript/harness/index.ts`:
+Add the core TypeScript types in `exoharness/typescript/harness/index.ts`:
 
 - `outputSchema?: JsonValue` on `ToolDefinition`.
 - `HarnessToolSource = "built_in" | "library" | "agent"`.
@@ -494,7 +494,7 @@ Expected behavior change: none for existing harnesses.
 
 ### Step 5: Switch The Basic TypeScript Harness To Shell Through Registry
 
-Update `examples/typescript/basic-harness.ts` to:
+Update `exoharness/examples/typescript/basic-harness.ts` to:
 
 - Create a registry once per turn loop.
 - Register built-in `shell`.
@@ -574,7 +574,7 @@ loading can expose agent tools.
 ### Step 8: Add An Example IRC Tool
 
 After the local agent tool loading path works, add a concrete IRC tool under an
-examples directory, for example `examples/typescript/tools/irc.ts`.
+examples directory, for example `exoharness/examples/typescript/tools/irc.ts`.
 
 This should be an example of the standardized `Tool` default export:
 
@@ -633,7 +633,7 @@ The first patch should stop at Step 2:
 - Add `HarnessToolRegistry`.
 - Add tests for registration, duplicate names, definitions, and execution using
   fake in-memory tools.
-- Do not change `examples/typescript/basic-harness.ts` yet.
+- Do not change `exoharness/examples/typescript/basic-harness.ts` yet.
 - Do not change Rust unless TypeScript changes force a Rust schema update.
 
 That patch validates the core API without changing runtime behavior. The second
@@ -899,7 +899,7 @@ untyped JSON initialization parameters and the module validates them.
 
 The harness needs a local entrypoint for agent-created tools so the agent does
 not have to edit the main turn loop every time. A simple first version could be
-an explicit loader in `examples/typescript/basic-harness.ts`:
+an explicit loader in `exoharness/examples/typescript/basic-harness.ts`:
 
 ```ts
 interface AgentToolManifest {

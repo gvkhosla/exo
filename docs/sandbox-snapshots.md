@@ -168,7 +168,7 @@ a subcommand useless until it's resolved.
 
 ## Executable demo
 
-[`crates/cli/tests/snapshot_round_trip.rs`](../crates/cli/tests/snapshot_round_trip.rs)
+[`exoharness/crates/cli/tests/snapshot_round_trip.rs`](../exoharness/crates/cli/tests/snapshot_round_trip.rs)
 is the canonical, runnable reference for using the snapshot APIs. It drives
 the harness library directly (no LLM, no binary spawn) and exercises the same
 lifecycle this doc describes. Run it manually with:

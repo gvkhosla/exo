@@ -29,7 +29,7 @@ This should feel closer to the `tmux` / `opencode` model:
 
 ### Keep
 
-- `crates/exoharness`
+- `exoharness/crates/exoharness`
   - traits
   - types
   - local backend implementation
@@ -37,7 +37,7 @@ This should feel closer to the `tmux` / `opencode` model:
 
 ### Add
 
-Initially, these should just be modules inside `crates/exoharness`, not new crates:
+Initially, these should just be modules inside `exoharness/crates/exoharness`, not new crates:
 
 - `exoharness::server`
   - wraps an `Arc<dyn ExoHarness>`
@@ -197,13 +197,13 @@ without learning a second host-specific API
 The following code is the wrong long-term shape and should be removed once the IPC-backed exoharness client exists:
 
 - the bespoke TypeScript executor bridge in:
-  - `crates/executor/src/typescript.rs`
+  - `exoharness/crates/executor/src/typescript.rs`
 
 - the custom host request protocol in:
-  - `typescript/harness/runner.ts`
+  - `exoharness/typescript/harness/runner.ts`
 
 - the bespoke `HarnessContext` surface in:
-  - `typescript/harness/index.ts`
+  - `exoharness/typescript/harness/index.ts`
 
 This code is useful as a spike because it proved:
 
@@ -229,7 +229,7 @@ The ergonomic helpers should be rebuilt on top of the exoharness client rather t
 
 After this refactor:
 
-- Rust `basic` and `rlm` executors remain in `crates/executor`
+- Rust `basic` and `rlm` executors remain in `exoharness/crates/executor`
 - they keep using `exoharness`
 - TypeScript harnesses do not need to be modeled as a special Rust executor
 
@@ -245,7 +245,7 @@ So the Rust side stops pretending that a TS harness is a normal Rust executor im
 
 ### Phase 1: server and Rust client
 
-1. Add `server`, `client`, and `protocol` modules under `crates/exoharness`.
+1. Add `server`, `client`, and `protocol` modules under `exoharness/crates/exoharness`.
 2. Add a local IPC transport.
 3. Validate that a Rust CLI process can talk to the server instead of the in-process backend.
 
@@ -264,7 +264,7 @@ So the Rust side stops pretending that a TS harness is a normal Rust executor im
 
 Remove:
 
-- `crates/executor/src/typescript.rs`
+- `exoharness/crates/executor/src/typescript.rs`
 - the bespoke JSONL host request protocol
 - the bespoke `HarnessContext` SDK
 

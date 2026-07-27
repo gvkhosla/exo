@@ -54,7 +54,7 @@ checkout with cargo:
 ```bash
 git clone https://github.com/exoharness/exo
 cd exo
-cargo install --path crates/cli --locked
+cargo install --path exoharness/crates/cli --locked
 exo --help
 ```
 

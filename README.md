@@ -12,7 +12,7 @@
 [![Rust](https://img.shields.io/badge/rust-stable-orange.svg?logo=rust)](Cargo.toml)
 [![TypeScript](https://img.shields.io/badge/typescript-5.x-3178c6.svg?logo=typescript&logoColor=white)](tsconfig.json)
 
-[Documentation](https://exoharness.ai/docs) · [Examples](examples/) · [Discord](https://discord.gg/8x23hdBJU6)
+[Documentation](https://exoharness.ai/docs) · [Examples](exoharness/examples/) · [Discord](https://discord.gg/8x23hdBJU6)
 
 </div>
 
@@ -176,12 +176,12 @@ While there are many, the most obvious is that right now there isn't a simple wa
 
 There are a number of prompt files that Exo uses during runtime. You can edit these directly or ask Exo to.
 
-- `examples/exo/prompts/me.md`: the committed core identity and operating
+- `exo/prompts/me.md`: the committed core identity and operating
   rules for the default Exo agent.
 - `.exo/exo-profile.md`: local, git-ignored profile instructions such as
   your name and machine-specific preferences. Create or update it with
   `./exo.sh setup-profile`.
-- `examples/exo/harness.ts`: assembles the full prompt sent each turn,
+- `exo/harness.ts`: assembles the full prompt sent each turn,
   including dynamic instructions about tools, adapters, memory, sandbox behavior,
   and self-maintenance.
 

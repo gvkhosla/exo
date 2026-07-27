@@ -34,7 +34,7 @@ install here unchanged: read the `SKILL.md` and files, pass them to
 ## Storage: artifact-backed
 
 Skills are stored as **agent artifacts**, not sandbox files. Rationale, from
-the exo state inventory (`examples/exo/docs/SELF-CONTROL.md`, area 2):
+the exo state inventory (`exo/docs/SELF-CONTROL.md`, area 2):
 the sandbox filesystem is the one non-durable layer — it does not survive
 rewinds or warm-container death — while agent artifacts survive sandbox
 rewinds and service restarts, persist across every conversation for the agent,
@@ -58,7 +58,7 @@ the same name writes a new version and updates the index entry.
 Known limitation (shared with the memory store): index updates are
 read-modify-write without compare-and-swap, so two conversations installing
 skills concurrently can lose one index update. Fix alongside the artifact
-versioning rework (see the TODO in `examples/exo/memory-tools.ts`).
+versioning rework (see the TODO in `exo/memory-tools.ts`).
 
 Supporting files are stored as UTF-8 text in v1. Binary assets are out of
 scope; skills needing binaries should fetch them at use time (the body can
@@ -66,7 +66,7 @@ instruct the agent to download into the sandbox).
 
 ## Tool surface
 
-Implemented in `typescript/harness/skill-tools.ts` and exported from
+Implemented in `exoharness/typescript/harness/skill-tools.ts` and exported from
 `@exo/harness`, so any harness — not just exo — can register the tools and
 inject the listing. Nothing in the module depends on exo; it only uses the
 generic `Agent` artifact API.

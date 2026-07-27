@@ -1,10 +1,10 @@
 [workspace]
 members = [
-  "crates/cli",
-  "crates/cost",
-  "crates/exoharness",
-  "crates/executor",
-  "examples/exo/scheduler-runner",
+  "exoharness/crates/cli",
+  "exoharness/crates/cost",
+  "exoharness/crates/exoharness",
+  "exoharness/crates/executor",
+  "exo/scheduler-runner",
 ]
 resolver = "2"
 

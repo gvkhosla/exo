@@ -22,11 +22,11 @@ Current sources:
 - `built_in`: core Exo adapter. IRC is the only built-in adapter.
 - `library`: reusable adapter shipped with Exo. Signal and WhatsApp are library adapters backed by shipped workers.
 
-All adapters in this PR are worker adapters: supervised processes using JSONL over stdin/stdout. Protocol-specific code should live under `examples/exo/adapters/<adapter>/`, not in the shared Rust runtime.
+All adapters in this PR are worker adapters: supervised processes using JSONL over stdin/stdout. Protocol-specific code should live under `exo/adapters/<adapter>/`, not in the shared Rust runtime.
 
 ## Data Model
 
-Core records live in `crates/executor/src/adapter/types.rs`.
+Core records live in `exoharness/crates/executor/src/adapter/types.rs`.
 
 Important types:
 
@@ -39,7 +39,7 @@ There is no module adapter path in this PR. If agent-authored adapters are added
 
 ## Storage
 
-The adapter store is file-backed in `crates/executor/src/adapter/store.rs`.
+The adapter store is file-backed in `exoharness/crates/executor/src/adapter/store.rs`.
 
 Default root:
 
@@ -63,7 +63,7 @@ Adapter records and event records stay in the store. Larger, conversation-visibl
 The adapter runner is a host process started by the Exo script:
 
 ```text
-examples/exo/scripts/exo-repl
+exo/scripts/exo-repl
 ```
 
 It starts:
@@ -75,7 +75,7 @@ exo --harness exo adapters run --watch --limit <N>
 The CLI entry point is:
 
 ```text
-crates/cli/src/adapters.rs
+exoharness/crates/cli/src/adapters.rs
 ```
 
 Responsibilities:
@@ -87,7 +87,7 @@ Responsibilities:
 The watch loop is in:
 
 ```text
-crates/executor/src/adapter/runtime.rs
+exoharness/crates/executor/src/adapter/runtime.rs
 ```
 
 Responsibilities:
@@ -104,8 +104,8 @@ Responsibilities:
 The shared worker protocol is implemented in Rust and mirrored in TypeScript:
 
 ```text
-crates/executor/src/adapter/worker.rs
-examples/exo/adapters/protocol.ts
+exoharness/crates/executor/src/adapter/worker.rs
+exo/adapters/protocol.ts
 ```
 
 Host to worker:
@@ -151,7 +151,7 @@ Workers receive configuration via environment:
 The wakeup path is shared with scheduler wakeups:
 
 ```text
-crates/executor/src/conversation_wakeup.rs
+exoharness/crates/executor/src/conversation_wakeup.rs
 ```
 
 ## Outbound Flow
@@ -171,7 +171,7 @@ This avoids short-lived reconnects for every outbound message.
 Model-facing adapter tools are defined in:
 
 ```text
-typescript/harness/adapter-tools.ts
+exoharness/typescript/harness/adapter-tools.ts
 ```
 
 Tools:
@@ -185,20 +185,20 @@ Tools:
 These tools are registered by the Exo harness:
 
 ```text
-examples/exo/harness.ts
+exo/harness.ts
 ```
 
 Host-side execution is in:
 
 ```text
-crates/executor/src/harness_tool.rs
-crates/executor/src/adapter/tools.rs
+exoharness/crates/executor/src/harness_tool.rs
+exoharness/crates/executor/src/adapter/tools.rs
 ```
 
 The TypeScript layer currently transforms typed user-facing adapter configs into generic worker configs. For example, a Signal config becomes a worker config pointing at:
 
 ```text
-examples/exo/adapters/signal/worker.ts
+exo/adapters/signal/worker.ts
 ```
 
 ## Protocol Workers
@@ -206,7 +206,7 @@ examples/exo/adapters/signal/worker.ts
 Protocol-specific code lives under:
 
 ```text
-examples/exo/adapters/
+exo/adapters/
 ```
 
 Current workers:
@@ -218,12 +218,12 @@ Current workers:
 Each adapter directory also has a local README and setup prompt:
 
 ```text
-examples/exo/adapters/irc/README.md
-examples/exo/adapters/irc/setup-prompt.md
-examples/exo/adapters/whatsapp/README.md
-examples/exo/adapters/whatsapp/setup-prompt.md
-examples/exo/adapters/signal/README.md
-examples/exo/adapters/signal/setup-prompt.md
+exo/adapters/irc/README.md
+exo/adapters/irc/setup-prompt.md
+exo/adapters/whatsapp/README.md
+exo/adapters/whatsapp/setup-prompt.md
+exo/adapters/signal/README.md
+exo/adapters/signal/setup-prompt.md
 ```
 
 ## Lifecycle
@@ -232,7 +232,7 @@ Adapter lifecycle is owned by the host runner, not by the REPL.
 
 Startup:
 
-- `examples/exo/scripts/exo-repl` starts `exo adapters run --watch` unless `--no-adapters` is set.
+- `exo/scripts/exo-repl` starts `exo adapters run --watch` unless `--no-adapters` is set.
 - The runner writes `.exo/exo-adapters.pid` and logs to `.exo/exo-adapters.log`.
 - The runner starts worker processes for enabled, ready adapters.
 
@@ -243,40 +243,40 @@ Restart:
 
 Stopping:
 
-- `stop_adapters` in `examples/exo/scripts/exo-repl` kills the runner and worker processes.
+- `stop_adapters` in `exo/scripts/exo-repl` kills the runner and worker processes.
 - Disabling/deleting adapter records prevents future restarts.
 
 ## Files To Inspect For PR Review
 
 Core model and runtime:
 
-- `crates/executor/src/adapter/types.rs`
-- `crates/executor/src/adapter/store.rs`
-- `crates/executor/src/adapter/runtime.rs`
-- `crates/executor/src/adapter/worker.rs`
-- `crates/executor/src/adapter/tools.rs`
-- `crates/cli/src/adapters.rs`
+- `exoharness/crates/executor/src/adapter/types.rs`
+- `exoharness/crates/executor/src/adapter/store.rs`
+- `exoharness/crates/executor/src/adapter/runtime.rs`
+- `exoharness/crates/executor/src/adapter/worker.rs`
+- `exoharness/crates/executor/src/adapter/tools.rs`
+- `exoharness/crates/cli/src/adapters.rs`
 
 TypeScript tool surface:
 
-- `typescript/harness/adapter-tools.ts`
-- `typescript/harness/index.test.ts`
-- `examples/exo/harness.ts`
+- `exoharness/typescript/harness/adapter-tools.ts`
+- `exoharness/typescript/harness/index.test.ts`
+- `exo/harness.ts`
 
 Protocol-specific workers:
 
-- `examples/exo/adapters/protocol.ts`
-- `examples/exo/adapters/irc/worker.ts`
-- `examples/exo/adapters/whatsapp/worker.ts`
-- `examples/exo/adapters/signal/worker.ts`
+- `exo/adapters/protocol.ts`
+- `exo/adapters/irc/worker.ts`
+- `exo/adapters/whatsapp/worker.ts`
+- `exo/adapters/signal/worker.ts`
 
 Script and docs:
 
-- `examples/exo/scripts/exo-repl`
-- `examples/exo/README.md`
-- `examples/exo/adapter-architecture.md`
-- `examples/exo/adapters/*/README.md`
-- `examples/exo/adapters/*/setup-prompt.md`
+- `exo/scripts/exo-repl`
+- `exo/README.md`
+- `exo/adapter-architecture.md`
+- `exo/adapters/*/README.md`
+- `exo/adapters/*/setup-prompt.md`
 
 ## Minimality Notes
 
